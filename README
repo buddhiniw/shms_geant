@@ -1,0 +1,23 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+A geant4 simulation package for SHMS
+Author - B.Waidyawansa
+Date - 11-10-2013
+=================================================
+
+To use:
+Change the G4WORKDOR path to point to the location of the directory containing tthe source files.
+Then source SETUP.csh to set the geant4 enviorenment. 
+To compile -
+ - mkdir ../shms_geant_build
+ - cd shms_geant_build
+ - cmake -DGeant4_DIR=$G4INSTALL $G4WORKDIR
+ - make -j  3
+
+
+- Copy gdml files into the build directory.
+ 	- bender_test.gdml - no target. Only the bender
+	- test_target.gdml - only the target. No detectors.
+	- bender_geom.gdml - full setup
+	- bender_geom_no_dump.gdml - no beam dump.
+	- no_geom.gdml No geometry. Only the world volume filled with air. This is to test the magnetic field.
+
