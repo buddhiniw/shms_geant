@@ -51,7 +51,7 @@
 	<constant name="fShieldRMin2" value="59"/>
 	<constant name="fShieldDz" value="2000"/>
 
-	<constant name="fBDumpHeliumFillCentralDz" value="(-fBDumpFaceCentralDz+fBDumpFaceDz)*0.5+fBDumpHeliumVesseThickness"/>
+	<constant name="fBDumpHeliumFillCentralDz" value="(-fBDumpFaceCentralDz+fBDumpFaceDz)*0.5+fBDumpHeliumVesselDz"/>
 
 	<constant name="fHBBoreXfp" value="11.75"/>
 	<constant name="fHBBoreXfn" value="-4.13"/>
@@ -122,7 +122,7 @@
 	<position name="pDumpWindow" unit="cm" x="fBDumpWindowCenterX" y="fBDumpWindowCenterY" z="fBDumpWindowCenterZ" />
 	<position name="pDumpFace" unit="cm" x="fBDumpFaceCenterX" y="fBDumpFaceCenterY" z="fBDumpFaceCenterZ" />
 	<position name="pDumpHeVessel" unit="cm" x="fBDumpHeVesselCenterX" y="fBDumpHeVesselCenterY" z="fBDumpHeVesselCenterZ" />
-  	<position name="pHeliumFill" unit="cm" x="0" y="0" z="fBDumpHeliumFillCentralDz" /> 
+  	<position name="pHeliumFill" unit="cm" x="0" y="0" z="(-fBDumpFaceCentralDz+fBDumpFaceDz)*0.25" /> 
 	<position name="pHBCoilTopCut" unit="cm" x="0" y="fHBCoilWidth+fHBCoilBoxTopCutY/2" z="0" />
   	<position name="pHBCoilBottomCut" unit="cm" x="0" y="-(fHBCoilWidth+fHBCoilBoxTopCutY/2)" z="0" />
   	<position name="pBpipe" unit="cm" x="-236.65" y="0" z="1469.33" />
@@ -214,7 +214,7 @@
 	<tube aunit="deg"  name="beamDumpWindow" startphi="0" deltaphi="360" lunit="cm" rmin="0" rmax="fBDumpWindowRMax" z="fBDumpWindowDz"/>
 	<tube aunit="deg"  name="beamDumpHeliumVessel" startphi="0" deltaphi="360" lunit="cm" rmin="-fBDumpHeliumVesseThickness+fBDumpWindowRMax" rmax="fBDumpWindowRMax" z="fBDumpHeliumVesselDz"/>
 	<tube aunit="deg"  name="beamDumpHeliumFill" startphi="0" deltaphi="360" lunit="cm" rmin="fBDumpFaceCentralR" rmax="-fBDumpHeliumVesseThickness+fBDumpWindowRMax" z="fBDumpHeliumVesselDz"/>
-	<tube aunit="deg"  name="beamDumpHeliumFillCenter" startphi="0" deltaphi="360" lunit="cm" rmin="0" rmax="fBDumpFaceCentralR" z="fBDumpHeliumVesselDz+fBDumpFaceCentralDz"/>
+	<tube aunit="deg"  name="beamDumpHeliumFillCenter" startphi="0" deltaphi="360" lunit="cm" rmin="0" rmax="fBDumpFaceCentralR" z="fBDumpHeliumFillCentralDz"/>
 
 	<cone name = "dumpSheild" rmin1="fShieldRMin1" rmax1="fShieldRMax1" rmin2="fShieldRMin2" rmax2="fShieldRMax2" z="fShieldDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
 
@@ -401,7 +401,7 @@
 	</volume>
 
 	<volume name="ShieldBoxLogic">
-	<materialref ref="SSteel"/>
+	<materialref ref="Moria"/>
 	<solidref ref="boxShield"/>
 	</volume>
 
@@ -428,7 +428,7 @@
 	</volume>	
 
 	<volume name="DumpShieldLogic">
-	<materialref ref="SSteel"/>
+	<materialref ref="Moria"/>
 	<solidref ref="dumpSheild"/>
 	</volume>
 	
