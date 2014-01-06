@@ -85,7 +85,7 @@ void SHMSPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     //
 
     // particles originate at the target.
-    fParticleGun->SetParticlePosition(G4ThreeVector(13.65*cm,0.0*cm,-205.43*cm))
+    fParticleGun->SetParticlePosition(G4ThreeVector(13.65*cm,0.0*cm,-205.43*cm));
 
     // test by shooting 3 particles with with 1.5 deg spacing
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0,0,1));
