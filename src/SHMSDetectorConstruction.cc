@@ -102,7 +102,7 @@ G4VPhysicalVolume* SHMSDetectorConstruction::Construct()
     // Can take long time in case of complex geometries
     //
     fGDMLParser.SetOverlapCheck(true);
-    fGDMLParser.Read(fGeomFile+".gdml");
+    fGDMLParser.Read("gdml/"+fGeomFile+".gdml");
     
     // Prints the material information
     //

@@ -34,14 +34,23 @@ public:
 public:
   virtual void BeginOfEventAction(const G4Event *event);
   virtual void   EndOfEventAction(const G4Event *event);
+
+  const std::vector<G4double> GetEnergySum() const { return sd_energy; };
+  const std::vector<G4double> GetEnergySum2()const { return sd_energy2; };
+
 private:
   static SHMSEventAction*  fgInstance;  
   SHMSAnalysisManager* analysisManager;
+  G4SDManager * SDman;
 
   std::vector<G4int> hitsCollectionID;
   std::vector<G4String> sd_names;
+  std::vector<G4double>sd_energy; // to store total energy per event
+  std::vector<G4double> sd_energy2; // to store total energy^2 per event
 
   G4int nDets;
+  G4double fEnergySum;
+  G4double fEnergySum2;
 
 };
 

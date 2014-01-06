@@ -48,7 +48,7 @@ target_link_libraries(shms_geant ${ROOT_LIBRARIES})
 # relies on these scripts being in the current working directory.
 #
 set(SHMS_SCRIPTS
-    vis.mac AnaEx01.gdml shms_geom.gdml
+    vis.mac gdml/shms_geom.gdml
   )
 
 foreach(_script ${SHMS_SCRIPTS})
