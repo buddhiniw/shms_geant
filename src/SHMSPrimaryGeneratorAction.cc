@@ -46,9 +46,13 @@ SHMSPrimaryGeneratorAction::SHMSPrimaryGeneratorAction()
   fParticleGun->SetParticleDefinition(particle);
   
   // electron energy is 11 GeV.
-  fParticleGun->SetParticleEnergy(11000*MeV);
-  
- 
+  double gun_energy = 4000; // MeV
+  fParticleGun->SetParticleEnergy(gun_energy*MeV);
+  G4cout << "***************************" << G4endl
+	 << "*                          " << G4endl
+	 << "*  Gun energy is "<<gun_energy<<" MeV    " << G4endl
+	 << "*                          " << G4endl
+	 << "***************************" << G4endl;
   /*
     12-04-2013 Buddhini - Hardcode location of the particle gun w.r.t optics coordinate system. 
     Place gun at least 30 cm upstream of target. --> gun is at bender_to_target+30 cm along beam axis.
@@ -61,7 +65,7 @@ SHMSPrimaryGeneratorAction::SHMSPrimaryGeneratorAction()
     X = (target_to_hbbore_center*cos(beta) + 30*cos(beta+alpha)
     Y = 0
     Z = (target_to_hbbore_center*sin(beta) + 30*sin(beta+alpha)
- 
+    
   */
   gun_x_pos = 13.65;
   gun_y_pos = 0;
