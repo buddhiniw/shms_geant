@@ -4,6 +4,8 @@
 <define>
  	<constant name="PI" value="1.*pi"/>
 	<variable name="target_to_hbbore_center" value="176"/>
+	<variable name="target_to_sspipe_center" value="137.156"/>
+
 	<constant name="fBoreRot" value="1.5"/>
 	<constant name="fHBLHeThick" value="0.5"/>
 
@@ -15,14 +17,28 @@
 	<constant name="fWorldZ" value="11000"/>
 
 	<constant name="fBpipeThick" value="0.3"/>
-	<constant name="fBpipeRMax1" value="2.54"/>
+	<constant name="fBpipeRMax1" value="2.30"/>
 	<constant name="fBpipeRMin1" value="-fBpipeThick+fBpipeRMax1"/>
-	<constant name="fBpipeRMax2" value="30.48"/>
+	<constant name="fBpipeRMax2" value="2.54"/>
 	<constant name="fBpipeRMin2" value="-fBpipeThick+fBpipeRMax2"/>
 	<constant name="fBpipeDz" value="3287.36"/>
 	<constant name="fHBBpipeCenterX" value="-cos(8.5*pi/180)*sin(5.5*pi/180)*target_to_hbbore_center+2"/>
 	<constant name="fHBBpipeCenterY" value="0"/>
 	<constant name="fHBBpipeCenterZ" value="-sin(8.5*pi/180)*sin(5.5*pi/180)*target_to_hbbore_center+2"/>
+
+	<constant name="fBpipeFrontRMax" value="2.30"/>
+	<constant name="fBpipeFrontRMin" value="-fBpipeThick+fBpipeFrontRMax"/>
+	<constant name="fBpipeFrontDz" value="200"/>
+	<constant name="fBpipeBackRMax1" value="2.30"/>
+	<constant name="fBpipeBackRMin1" value="-fBpipeThick+fBpipeBackRMax1"/>
+	<constant name="fBpipeBackRMax2" value="30.48"/>
+	<constant name="fBpipeBackRMin2" value="-fBpipeThick+fBpipeBackRMax2"/>
+	<constant name="fBpipeBackDz" value="3037.36"/>
+
+	<constant name="fDumBpipeRMax1" value="2.54"/>
+	<constant name="fDumBpipeRMin1" value="-fBpipeThick+fBpipeRMax1"/>
+	<constant name="fDumBpipeRMax2" value="30.48"/>
+	<constant name="fDumBpipeRMin2" value="-fBpipeThick+fBpipeRMax2"/>
 
 	<constant name="fBDumpFaceDiameter" value="60.96"/>
 	<constant name="fBDumpFaceRMax" value="(fBDumpFaceDiameter/2) + 20"/>
@@ -129,6 +145,10 @@
   	<position name="pHBCoilBottomCut" unit="cm" x="0" y="-(fHBCoilWidth+fHBCoilBoxTopCutY/2)" z="0" />
   	<position name="pBpipe" unit="cm" x="-236.65" y="0" z="1469.33" />
   	<position name="pBpipeInCryo" unit="cm" x="-198.14" y="0" z="1475.34" />
+
+  	<position name="pPipeFront" unit="cm" x="0" y="0" z="(fBpipeBackDz+fBpipeFrontDz)/2" />
+  	<position name="pPipeFull" unit="cm" x="-8.625" y="0" z="-57.09" />
+
  
   	<rotation name="identity" x="0" y="0" z="0"/>
 	<rotation name="rHBRot" unit="deg" x="0" y="fBoreRot" z="0"/>
@@ -208,9 +228,18 @@
 	<box lunit="cm" name="boxShield" x="(fWorldXfn+13)/2" y="fWorldY/2" z="2"/>
 	<box lunit="cm" name="endDump" x="300" y="100" z="100"/>
 
+
+	<tube aunit="deg"  name="pipefront" startphi="0" deltaphi="360" lunit="cm" rmin="fBpipeFrontRMin" rmax="fBpipeFrontRMax" z="fBpipeFrontDz"/>
+	<cone name = "pipeback" rmin1="fBpipeBackRMin1" rmax1="fBpipeBackRMax1" rmin2="fBpipeBackRMin2" rmax2="fBpipeBackRMax2" z="fBpipeBackDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
+	<tube aunit="deg"  name="pipefrontfull" startphi="0" deltaphi="360" lunit="cm" rmin="0" rmax="fBpipeFrontRMin" z="fBpipeFrontDz"/>
+	<cone name = "pipebackfull" rmin1="0" rmax1="fBpipeBackRMin1" rmin2="0" rmax2="fBpipeBackRMin2" z="fBpipeBackDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
+
+
 	<cone name = "beamPipe" rmin1="fBpipeRMin1" rmax1="fBpipeRMax1" rmin2="fBpipeRMin2" rmax2="fBpipeRMax2" z="fBpipeDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
 	<cone name = "beamPipeFull" rmin1="0" rmax1="fBpipeRMax1" rmin2="0" rmax2="fBpipeRMax2" z="fBpipeDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
 	<cone name = "beamPipeVac" rmin1="0" rmax1="fBpipeRMin1" rmin2="0" rmax2="fBpipeRMin2" z="fBpipeDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
+
+	<cone name = "dumbeamPipeFull" rmin1="0" rmax1="fDumBpipeRMax1" rmin2="0" rmax2="fDumBpipeRMax2" z="fBpipeDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
 
 	<tube aunit="deg"  name="beamDumpFace" startphi="0" deltaphi="360" lunit="cm" rmin="fBDumpFaceCentralR" rmax="fBDumpFaceRMax" z="fBDumpFaceDz"/>
 	<tube aunit="deg"  name="beamDumpFaceCenter" startphi="0" deltaphi="360" lunit="cm" rmin="0" rmax="fBDumpFaceCentralR" z="fBDumpFaceCentralDz"/>
@@ -339,7 +368,7 @@
 
 	<subtraction name="hbCryoSolidWithPipeCut">
 	<first ref="hbCryoBoxHollow"/>
-	<second ref="beamPipeFull"/>
+	<second ref="dumbeamPipeFull"/>
 	<positionref ref="pBpipeInCryo"/>
 	<rotationref ref="rBpipeInCryo"/>	
 	</subtraction>
@@ -361,6 +390,18 @@
 	<second ref="beamDumpHeliumFillCenter"/>
 	<positionref ref="pHeliumFill"/>
 	</union>
+
+	<union name="beampipe">
+	<first ref="pipefront"/>
+	<second ref="pipeback"/>
+	<positionref ref="pPipeFront"/>
+	</union>
+
+	<union name="beampipefull">
+	<first ref="pipefrontfull"/>
+	<second ref="pipebackfull"/>
+	<positionref ref="pPipeFront"/>
+	</union>
 	
 </solids>
 
@@ -373,12 +414,12 @@
 
 	<volume name="BeamPipeVacLogic">
 	<materialref ref="Vacuum"/>
-	<solidref ref="beamPipeVac"/>
+	<solidref ref="pipefrontfull"/>
 	</volume>
 
 	<volume name="BeamPipeLogic">
 	<materialref ref="Al"/>
-	<solidref ref="beamPipe"/>
+	<solidref ref="beampipe"/>
 	</volume>
 
 	<volume name="HBBoreLogic">
@@ -440,6 +481,7 @@
 	<solidref ref="endDump"/>
 	<auxiliary auxtype="SensDet" auxvalue="EndDump"/>
 	</volume>
+
 	
 	<volume name="World">
 	<materialref ref="Air"/> 
@@ -452,13 +494,13 @@
 
 		<physvol name="BeamPipe">
 		<volumeref ref="BeamPipeLogic"/>
-		<positionref ref="pBpipe"/>
+		<positionref ref="pPipeFull"/>
 		<rotationref ref="rBpipe"/>
 		</physvol>
 
 		<physvol name="BeamPipeVac">
 		<volumeref ref="BeamPipeVacLogic"/>
-		<positionref ref="pBpipe"/>
+		<positionref ref="pPipeFull"/>
 		<rotationref ref="rBpipe"/>
 		</physvol>
 

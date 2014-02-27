@@ -9,6 +9,7 @@ SHMSPrimaryGeneratorAction class implementation
 11-05-2013 Buddhini - Hardcode location of the particle gun w.r.t bender body coordinate system. 
 12-04-2013 Buddhini - Hardcoded location of the gun w.r.t. origin on the optics system located at the bender.
                       This will enable us to use any target without having to readjust X and Y gun location.
+01-09-2013 Buddhini - Removed the while loop used around the X0,Y0 random event generators. It was causing the particle hit location on the target to be uniform instead of random. X0 and Y0 was almost always 0.
 
 ******************************************************************/
 
@@ -45,9 +46,13 @@ SHMSPrimaryGeneratorAction::SHMSPrimaryGeneratorAction()
   fParticleGun->SetParticleDefinition(particle);
   
   // electron energy is 11 GeV.
-  //fParticleGun->SetParticleEnergy(11000*MeV);
-   fParticleGun->SetParticleEnergy(5000*MeV);
- 
+  double gun_energy = 11000; // MeV
+  fParticleGun->SetParticleEnergy(gun_energy*MeV);
+  G4cout << "***************************" << G4endl
+	 << "*                          " << G4endl
+	 << "*  Gun energy is "<<gun_energy<<" MeV    " << G4endl
+	 << "*                          " << G4endl
+	 << "***************************" << G4endl;
   /*
     12-04-2013 Buddhini - Hardcode location of the particle gun w.r.t optics coordinate system. 
     Place gun at least 30 cm upstream of target. --> gun is at bender_to_target+30 cm along beam axis.
@@ -60,7 +65,7 @@ SHMSPrimaryGeneratorAction::SHMSPrimaryGeneratorAction()
     X = (target_to_hbbore_center*cos(beta) + 30*cos(beta+alpha)
     Y = 0
     Z = (target_to_hbbore_center*sin(beta) + 30*sin(beta+alpha)
- 
+    
   */
   gun_x_pos = 13.65;
   gun_y_pos = 0;
@@ -88,8 +93,8 @@ void SHMSPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     fParticleGun->SetParticlePosition(G4ThreeVector(13.65*cm,0.0*cm,-205.43*cm));
 
     // test by shooting 3 particles with with 1.5 deg spacing
-    fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0,0,1));
-    fParticleGun->GeneratePrimaryVertex(anEvent);
+  //   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0,0,1));
+//     fParticleGun->GeneratePrimaryVertex(anEvent);
 
     G4ThreeVector momDir1;
     momDir1.setRThetaPhi(1.,-9.5*deg,0*deg);
@@ -140,12 +145,8 @@ void SHMSPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
    // beam size is 2x2 mm^2 raster
    G4double sizeMax = 0.2; 
 
-  
-   while (!((std::abs(x0)<= sizeMax)&&(std::abs(y0)<=sizeMax)))
-     {
-       x0 = CLHEP::RandFlat::shoot(-sizeMax,sizeMax);
-       y0 = CLHEP::RandFlat::shoot(-sizeMax,sizeMax);
-     }
+   x0 = CLHEP::RandFlat::shoot(-sizeMax,sizeMax);
+   y0 = CLHEP::RandFlat::shoot(-sizeMax,sizeMax);
 
 
    G4double raster_x = gun_x_pos +x0;

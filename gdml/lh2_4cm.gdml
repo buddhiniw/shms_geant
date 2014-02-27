@@ -64,7 +64,7 @@
 	<constant name="fHBBoreCenterZ" value="0"/>
 
 	<constant name="fTargetD" value="6.28"/>	
-	<constant name="fTargetZ" value="20"/>	
+	<constant name="fTargetZ" value="4"/>	
 	<constant name="fTargetCenterX" value="sin(3*pi/180)*target_to_hbbore_center"/>
 	<constant name="fTargetCenterY" value="0"/>
 	<constant name="fTargetCenterZ" value="-cos(3*pi/180)*target_to_hbbore_center"/>
@@ -121,6 +121,8 @@
    	<position name="pSheild" unit="cm" x="0" y="0" z="(fHBBoreZ/2)+6" />
 	<position name="pDumpWindow" unit="cm" x="fBDumpWindowCenterX" y="fBDumpWindowCenterY" z="fBDumpWindowCenterZ" />
 	<position name="pDumpFace" unit="cm" x="fBDumpFaceCenterX" y="fBDumpFaceCenterY" z="fBDumpFaceCenterZ" />
+	<position name="pEndDump" unit="cm" x="fBDumpFaceCenterX+10" y="fBDumpFaceCenterY" z="fBDumpFaceCenterZ+120" />
+
 	<position name="pDumpHeVessel" unit="cm" x="fBDumpHeVesselCenterX" y="fBDumpHeVesselCenterY" z="fBDumpHeVesselCenterZ" />
   	<position name="pHeliumFill" unit="cm" x="0" y="0" z="(-fBDumpFaceCentralDz+fBDumpFaceDz)*0.25" /> 
 	<position name="pHBCoilTopCut" unit="cm" x="0" y="fHBCoilWidth+fHBCoilBoxTopCutY/2" z="0" />
@@ -204,6 +206,7 @@
 	<tube aunit="deg"  name="target" startphi="0" deltaphi="360" lunit="cm" rmin="0" rmax="fTargetD/2" z="fTargetZ"/>
 
 	<box lunit="cm" name="boxShield" x="(fWorldXfn+13)/2" y="fWorldY/2" z="2"/>
+	<box lunit="cm" name="endDump" x="300" y="100" z="100"/>
 
 	<cone name = "beamPipe" rmin1="fBpipeRMin1" rmax1="fBpipeRMax1" rmin2="fBpipeRMin2" rmax2="fBpipeRMax2" z="fBpipeDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
 	<cone name = "beamPipeFull" rmin1="0" rmax1="fBpipeRMax1" rmin2="0" rmax2="fBpipeRMax2" z="fBpipeDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
@@ -431,6 +434,12 @@
 	<materialref ref="Moria"/>
 	<solidref ref="dumpSheild"/>
 	</volume>
+
+	<volume name="EndDumpLogic">
+	<materialref ref="SSteel"/>
+	<solidref ref="endDump"/>
+	<auxiliary auxtype="SensDet" auxvalue="EndDump"/>
+	</volume>
 	
 	<volume name="World">
 	<materialref ref="Air"/> 
@@ -498,6 +507,12 @@
 		<physvol name="BeamDumpFace">
 		<volumeref ref="BeamDumpFaceLogic"/>
 		<positionref ref="pDumpFace"/>
+		<rotationref ref="rTarget"/>
+		</physvol>
+
+		<physvol name="EndDump">
+		<volumeref ref="EndDumpLogic"/>
+		<positionref ref="pEndDump"/>
 		<rotationref ref="rTarget"/>
 		</physvol>
  	</volume>	

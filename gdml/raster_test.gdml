@@ -10,9 +10,9 @@
 	<constant name="fWorldXfp" value="60"/>
 	<constant name="fWorldXfn" value="-100"/>
 	<constant name="fWorldXbp" value="60"/>
-	<constant name="fWorldXbn" value="-1500"/>
+	<constant name="fWorldXbn" value="-100"/>
 	<constant name="fWorldY" value="130"/>
-	<constant name="fWorldZ" value="11000"/>
+	<constant name="fWorldZ" value="100"/>
 
 	<constant name="fBpipeThick" value="0.3"/>
 	<constant name="fBpipeRMax1" value="2.54"/>
@@ -450,71 +450,6 @@
 		<rotationref ref="rTarget"/>
 		</physvol>
 
-		<physvol name="BeamPipe">
-		<volumeref ref="BeamPipeLogic"/>
-		<positionref ref="pBpipe"/>
-		<rotationref ref="rBpipe"/>
-		</physvol>
-
-		<physvol name="BeamPipeVac">
-		<volumeref ref="BeamPipeVacLogic"/>
-		<positionref ref="pBpipe"/>
-		<rotationref ref="rBpipe"/>
-		</physvol>
-
-		<physvol name="HBbore">
-		<volumeref ref="HBBoreLogic"/>
-		<positionref ref="Origin"/>
-		<rotationref ref="rHBRot"/>
-		</physvol>
-
-		<physvol name="HBCoil">
-		<volumeref ref="HBCoilLogic"/>
-		<positionref ref="Origin"/>
-		<rotationref ref="rHBRot"/>
-		</physvol>
-
-		<physvol name="HBYork">
-		<volumeref ref="HBYorkLogic"/>
-		<positionref ref="Origin"/>
-		<rotationref ref="rHBRot"/>
-		</physvol>
-
-		<physvol name="HBCryoBox">
-		<volumeref ref="HBCryoBoxLogic"/>
-		<positionref ref="Origin"/>
-		<rotationref ref="rHBRot"/>
-		</physvol>
-
-		<physvol name="BeamDumpWindow">
-		<volumeref ref="BeamDumpWindowLogic"/>
-		<positionref ref="pDumpWindow"/>
-		<rotationref ref="rTarget"/>
-		</physvol>
-
-		<physvol name="BeamDumpHeVessel">
-		<volumeref ref="BeamDumpHeliumVesselLogic"/>
-		<positionref ref="pDumpHeVessel"/>
-		<rotationref ref="rTarget"/>
-		</physvol>
-
-		<physvol name="BeamDumpHelium">
-		<volumeref ref="HeliumFillLogic"/>
-		<positionref ref="pDumpHeVessel"/>
-		<rotationref ref="rTarget"/>
-		</physvol>
-
-		<physvol name="BeamDumpFace">
-		<volumeref ref="BeamDumpFaceLogic"/>
-		<positionref ref="pDumpFace"/>
-		<rotationref ref="rTarget"/>
-		</physvol>
-
-		<physvol name="EndDump">
-		<volumeref ref="EndDumpLogic"/>
-		<positionref ref="pEndDump"/>
-		<rotationref ref="rTarget"/>
-		</physvol>
  	</volume>	
 
 </structure>

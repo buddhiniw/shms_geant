@@ -26,6 +26,12 @@ Usage : ./shms_geant <gdml file name>
 #include "G4PhysListFactory.hh"
 #include "G4VModularPhysicsList.hh"
 
+// For randomizing seed in different runs
+//
+#include "Randomize.hh"
+#include "time.h"
+
+
 // User defined classes
 //
 #include "SHMSDetectorConstruction.hh"
@@ -58,9 +64,13 @@ Usage : ./shms_geant <gdml file name>
     #include "G4UIXm.hh"
 #endif
 
+// to swith between GUI and command prompt
+#define GUI 1        
+
 
 int main(int argc, char** argv)
 {
+
   G4String fGeomFile;
 
   // Get the GDML file for geometry
@@ -73,7 +83,16 @@ int main(int argc, char** argv)
     exit(1);
   }
 
-       
+  
+  //choose the Random engine
+  //
+  CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
+  //set random seed with system time
+  //
+  G4long seed = time(NULL);
+  CLHEP::HepRandom::setTheSeed(seed);  
+  G4cout<<" Randome seed = "<<seed<<G4endl;
+     
   // Construct the default run manager
   //
   G4RunManager* runManager = new G4RunManager;
@@ -126,6 +145,8 @@ int main(int argc, char** argv)
   //
   if (argc==2)   
     {
+
+      if(GUI){
 #ifdef G4UI_USE
       G4UIExecutive* ui = new G4UIExecutive(argc, argv);
 #ifdef G4VIS_USE
@@ -134,7 +155,18 @@ int main(int argc, char** argv)
       ui->SessionStart();
       delete ui;
 #endif
-           
+      }
+      else{
+	UImanager->ApplyCommand("/run/verbose 1");
+	UImanager->ApplyCommand("/event/verbose 1");
+	UImanager->ApplyCommand("/tracking/verbose 0");
+	
+	// start a run
+	int numberOfEvent = 100000;
+	
+	runManager->BeamOn(numberOfEvent);
+	
+      }
     }
   
   

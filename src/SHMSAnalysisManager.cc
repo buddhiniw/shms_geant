@@ -35,7 +35,7 @@ SHMSAnalysisManager::SHMSAnalysisManager(SHMSDetectorConstruction*det)
 
   // set the root file name using the gdml file name. Currently, all rootfiles are saved into
   // my folder in data1.
-  fileName  = "/data1/cdaq/buddhini/"+fDetector->GetGeomFile()+"_ntuple.root";
+  fileName  = "/data1/cdaq/buddhini/rootfiles/"+fDetector->GetGeomFile()+"_ntuple.root";
   nDet = 0;
   Clear();
 }

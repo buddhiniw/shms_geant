@@ -444,23 +444,6 @@
 	<volume name="World">
 	<materialref ref="Air"/> 
 	<solidref ref="boxWorld"/>
-		<physvol name="Target">
-		<volumeref ref="TargetLogic"/>
-		<positionref ref="pTarget"/>
-		<rotationref ref="rTarget"/>
-		</physvol>
-
-		<physvol name="BeamPipe">
-		<volumeref ref="BeamPipeLogic"/>
-		<positionref ref="pBpipe"/>
-		<rotationref ref="rBpipe"/>
-		</physvol>
-
-		<physvol name="BeamPipeVac">
-		<volumeref ref="BeamPipeVacLogic"/>
-		<positionref ref="pBpipe"/>
-		<rotationref ref="rBpipe"/>
-		</physvol>
 
 		<physvol name="HBbore">
 		<volumeref ref="HBBoreLogic"/>

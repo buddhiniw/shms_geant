@@ -34,7 +34,17 @@ SHMSEventAction* SHMSEventAction::Instance()
 }   
                               
 SHMSEventAction::SHMSEventAction()
-{}
+{
+  // Clear the energy arrays
+  sd_energy.clear();
+  sd_energy2.clear();
+
+  // for now use a fixed size vector
+  sd_energy.resize(10);
+  sd_energy2.resize(10);
+
+  fgInstance = this;
+}
 
 SHMSEventAction::~SHMSEventAction()
 {}
@@ -42,10 +52,10 @@ SHMSEventAction::~SHMSEventAction()
 void SHMSEventAction::BeginOfEventAction( const G4Event* event)
 {
   G4int eventID = event->GetEventID();
-  G4cout << "\n### Event Action - Begining of event " << eventID << G4endl;
+  G4cout << "\n### Begin Event Action - event " << eventID << G4endl;
 
   // Get the number of sensitive detectors in the collection.
-  G4SDManager * SDman = G4SDManager::GetSDMpointer();
+  SDman = G4SDManager::GetSDMpointer();
   nDets = SDman->GetCollectionCapacity();
 
   if((int) hitsCollectionID.size()==0)   
@@ -60,14 +70,15 @@ void SHMSEventAction::BeginOfEventAction( const G4Event* event)
 	hitsCollectionID.push_back (SDman->GetCollectionID(collName));
       }
     }
+
+  G4cout << "### Begin Event Action - Created Hits collection  " << G4endl;
+
 }
 
 
 void SHMSEventAction::EndOfEventAction(const G4Event* event)
 {          
-
-  G4double total_energy =0.0;
-                
+  
   // get analysis manager
   analysisManager = SHMSAnalysisManager::Instance();
 
@@ -83,9 +94,13 @@ void SHMSEventAction::EndOfEventAction(const G4Event* event)
   else
     G4cout<<"Hit collection for this event was not found!!!!\n";
 
+  G4cout << "### Fill ntuples & histograms " << G4endl;
 
-  // loop over number of sensitive detectors
+
+  // loop over number of sensitive detectors and fill/calculate variables
+  G4double edep=0;
   for (int i=0; i<nDets; i++) {
+             
     if(THC[i]){
       int n_hit = THC[i]->entries();
       if (n_hit>0) {
@@ -96,12 +111,19 @@ void SHMSEventAction::EndOfEventAction(const G4Event* event)
 	  analysisManager-> FillNtuples(aHit,sd_names.at(i));
 	  analysisManager-> FillHistograms(aHit,sd_names.at(i));
 
-	  //Total energy deposited for this event
-	  total_energy+=(aHit->GetEnergyDeposit()/MeV);
+	  //Get total energy deposited for this event
+	  edep = aHit->GetEnergyDeposit();
+
+	  // accumulate all energy deposition in the events
+	  // This will be later passed on the RunAction class
+	  sd_energy.at(i)+=edep;
+	  sd_energy2.at(i)+=edep*edep;
+
+	  //G4cout<<" edep ="<<sd_energy.at(i)<<" edep^2"<<sd_energy2.at(i)<<G4endl;
 	}
       }
     }
- 
+
     // Fill energy deposition histograms per event
     TH1* histo1 = (TH1D*)gDirectory->Get(Form("Tot_Edep_%s",(sd_names.at(i)).data()));
     if(!histo1){
@@ -109,10 +131,12 @@ void SHMSEventAction::EndOfEventAction(const G4Event* event)
       return;
     }
     else{
-      histo1 ->Fill(total_energy,1); 
+      histo1 ->Fill(sd_energy.at(i)/MeV,1); 
     }
+
   }
- 
+  G4cout << "### End of Event Action " << G4endl;
+    
 }
 
 

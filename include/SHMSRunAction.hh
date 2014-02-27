@@ -39,13 +39,18 @@ public:
   ~SHMSRunAction();
 
   void BeginOfRunAction(const G4Run* aRun);
-  void EndOfRunAction(const G4Run*);
+  void EndOfRunAction(const G4Run* aRun);
 
 private:
 
-  SHMSDetectorConstruction* Detector;    
-  SHMSAnalysisManager* Output;
-  SHMSEventAction* Event;
+  SHMSDetectorConstruction* fDetector;    
+  SHMSAnalysisManager* fOutput;
+  SHMSEventAction* fEvent;
+  ofstream oFile;
+
+  std::vector<G4double>  fEnergySum;
+  std::vector<G4double>  fEnergySum2;
+
 };
 
 #endif

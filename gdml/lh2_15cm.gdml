@@ -64,7 +64,7 @@
 	<constant name="fHBBoreCenterZ" value="0"/>
 
 	<constant name="fTargetD" value="6.28"/>	
-	<constant name="fTargetZ" value="20"/>	
+	<constant name="fTargetZ" value="15"/>	
 	<constant name="fTargetCenterX" value="sin(3*pi/180)*target_to_hbbore_center"/>
 	<constant name="fTargetCenterY" value="0"/>
 	<constant name="fTargetCenterZ" value="-cos(3*pi/180)*target_to_hbbore_center"/>

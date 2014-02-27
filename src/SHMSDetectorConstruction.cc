@@ -64,7 +64,8 @@ SHMSDetectorConstruction class implementation
 
 
 // Possibility to turn off (0) magnetic field and measurement volume. 
-#define MAG 0        
+#define MAG 1        
+#define MAG_POS 0        
 
 SHMSDetectorConstruction* SHMSDetectorConstruction::fgInstance = 0;
 
@@ -102,7 +103,7 @@ G4VPhysicalVolume* SHMSDetectorConstruction::Construct()
     // Can take long time in case of complex geometries
     //
     fGDMLParser.SetOverlapCheck(true);
-    fGDMLParser.Read(fGeomFile+".gdml");
+    fGDMLParser.Read("gdml/"+fGeomFile+".gdml");
     
     // Prints the material information
     //
@@ -185,7 +186,7 @@ G4VPhysicalVolume* SHMSDetectorConstruction::Construct()
   G4VisAttributes* aluminumVisAtt= new G4VisAttributes(G4Colour(1.0,0.0,1.0)); // magneta
 
   fWorldPhysVol->GetLogicalVolume()->SetVisAttributes(WorldVisAtt);  
-  WorldVisAtt->SetVisibility(false);
+  WorldVisAtt->SetVisibility(true);
   greenVisAtt->SetVisibility(true);
   greenVisAtt->SetForceSolid(false);
   vaccumVisAtt->SetVisibility(true);
@@ -272,19 +273,33 @@ G4VPhysicalVolume* SHMSDetectorConstruction::Construct()
   //  Magnetic Field 
   //
 #if MAG
-  G4cout << "***************************" << G4endl
-	 << "*                         *" << G4endl
-	 << "*  Magnetic Field is ON   *" << G4endl
-	 << "*                         *" << G4endl
-	 << "***************************" << G4endl;
 
   static G4bool fieldIsInitialized = false;
   if(!fieldIsInitialized)
     {
      
       G4FieldManager   *pFieldMgr;
-      SHMSMagField= new SHMSMagTabulatedField3D("HB_positive.TABLE");
-      
+
+      if(MAG_POS){
+	SHMSMagField= new SHMSMagTabulatedField3D("HB_positive.TABLE");
+        G4cout << "************************************" << G4endl
+	       << "*                                  *" << G4endl
+	       << "*  Positive Magnetic Field is ON   *" << G4endl
+	       << "*                                  *" << G4endl
+	       << "************************************" << G4endl;
+      }
+      else {
+	SHMSMagField= new SHMSMagTabulatedField3D("HB_negative.TABLE");
+
+
+        G4cout << "************************************" << G4endl
+	       << "*                                  *" << G4endl
+	       << "*  Negative Magnetic Field is ON   *" << G4endl
+	       << "*                                  *" << G4endl
+	       << "************************************" << G4endl;
+	
+      }
+
       // Get the global field manager 
       pFieldMgr=G4TransportationManager::GetTransportationManager()->GetFieldManager();
     
