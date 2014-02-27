@@ -28,12 +28,12 @@
 
 	<constant name="fBpipeFrontRMax" value="2.30"/>
 	<constant name="fBpipeFrontRMin" value="-fBpipeThick+fBpipeFrontRMax"/>
-	<constant name="fBpipeFrontDz" value="200"/>
+	<constant name="fBpipeFrontDz" value="300"/>
 	<constant name="fBpipeBackRMax1" value="2.30"/>
 	<constant name="fBpipeBackRMin1" value="-fBpipeThick+fBpipeBackRMax1"/>
 	<constant name="fBpipeBackRMax2" value="30.48"/>
 	<constant name="fBpipeBackRMin2" value="-fBpipeThick+fBpipeBackRMax2"/>
-	<constant name="fBpipeBackDz" value="3037.36"/>
+	<constant name="fBpipeBackDz" value="2987.36"/>
 
 	<constant name="fDumBpipeRMax1" value="2.54"/>
 	<constant name="fDumBpipeRMin1" value="-fBpipeThick+fBpipeRMax1"/>
@@ -80,7 +80,7 @@
 	<constant name="fHBBoreCenterZ" value="0"/>
 
 	<constant name="fTargetD" value="6.28"/>	
-	<constant name="fTargetZ" value="20"/>	
+	<constant name="fTargetZ" value="0.4"/>	
 	<constant name="fTargetCenterX" value="sin(3*pi/180)*target_to_hbbore_center"/>
 	<constant name="fTargetCenterY" value="0"/>
 	<constant name="fTargetCenterZ" value="-cos(3*pi/180)*target_to_hbbore_center"/>
@@ -130,6 +130,16 @@
 	<constant name="fHBCryoBoxY" value="4+fHBCoilBoxY"/>
 	<constant name="fHBCryoBoxZ" value="-0.1+fHBBoreZ"/>
 
+
+	<constant name="fSSpipeZ" value="61.1106"/>
+	<constant name="fSSpipeID" value="4.7625"/>
+	<constant name="fSSpipeOD" value="5.7151"/>
+	<constant name="fSSpipeCenterX" value="-15.6"/>
+	<constant name="fSSpipeCenterY" value="0"/>
+	<constant name="fSSpipeCenterZ" value="-9.9"/>
+
+
+
   	<position name="Origin" unit="cm" x="0" y="0" z="0" />
   	<position name="pTarget" unit="cm" x="fTargetCenterX" y="fTargetCenterY" z="fTargetCenterZ" />
   	<position name="pBPipe" unit="cm" x="fHBBpipeCenterX" y="fHBBpipeCenterY" z="fHBBpipeCenterX" />
@@ -145,9 +155,9 @@
   	<position name="pHBCoilBottomCut" unit="cm" x="0" y="-(fHBCoilWidth+fHBCoilBoxTopCutY/2)" z="0" />
   	<position name="pBpipe" unit="cm" x="-236.65" y="0" z="1469.33" />
   	<position name="pBpipeInCryo" unit="cm" x="-198.14" y="0" z="1475.34" />
+  	<position name="pSSPipe" unit="cm" x="fSSpipeCenterX" y="fSSpipeCenterY" z="fSSpipeCenterZ" />
 
   	<position name="pPipeFront" unit="cm" x="0" y="0" z="(fBpipeBackDz+fBpipeFrontDz)/2" />
-  	<position name="pPipeFull" unit="cm" x="-8.625" y="0" z="-57.09" />
 
  
   	<rotation name="identity" x="0" y="0" z="0"/>
@@ -247,6 +257,7 @@
 	<tube aunit="deg"  name="beamDumpHeliumVessel" startphi="0" deltaphi="360" lunit="cm" rmin="-fBDumpHeliumVesseThickness+fBDumpWindowRMax" rmax="fBDumpWindowRMax" z="fBDumpHeliumVesselDz"/>
 	<tube aunit="deg"  name="beamDumpHeliumFill" startphi="0" deltaphi="360" lunit="cm" rmin="fBDumpFaceCentralR" rmax="-fBDumpHeliumVesseThickness+fBDumpWindowRMax" z="fBDumpHeliumVesselDz"/>
 	<tube aunit="deg"  name="beamDumpHeliumFillCenter" startphi="0" deltaphi="360" lunit="cm" rmin="0" rmax="fBDumpFaceCentralR" z="fBDumpHeliumFillCentralDz"/>
+	<tube aunit="deg"  name="ssPipe" startphi="0" deltaphi="360" lunit="cm" rmin="fSSpipeID/2" rmax="fSSpipeOD/2" z="fSSpipeZ"/>
 
 	<cone name = "dumpSheild" rmin1="fShieldRMin1" rmax1="fShieldRMax1" rmin2="fShieldRMin2" rmax2="fShieldRMax2" z="fShieldDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
 
@@ -407,14 +418,14 @@
 
 <structure>
 	<volume name="TargetLogic">
-	<materialref ref="LH2"/>
+	<materialref ref="C"/>
 	<solidref ref="target"/>
 	<auxiliary auxtype="SensDet" auxvalue="Target"/>
 	</volume>
 
 	<volume name="BeamPipeVacLogic">
 	<materialref ref="Vacuum"/>
-	<solidref ref="pipefrontfull"/>
+	<solidref ref="beampipefull"/>
 	</volume>
 
 	<volume name="BeamPipeLogic">
@@ -482,6 +493,11 @@
 	<auxiliary auxtype="SensDet" auxvalue="EndDump"/>
 	</volume>
 
+	<volume name="SSPipeLogic">
+	<materialref ref="SSteel"/>
+	<solidref ref="ssPipe"/>
+	<auxiliary auxtype="SensDet" auxvalue="SSPipe"/>
+	</volume>
 	
 	<volume name="World">
 	<materialref ref="Air"/> 
@@ -492,15 +508,21 @@
 		<rotationref ref="rTarget"/>
 		</physvol>
 
+		<physvol name="SSPipe">
+		<volumeref ref="SSPipeLogic"/>
+		<positionref ref="pSSPipe"/>
+		<rotationref ref="rBpipe"/>
+		</physvol>
+
 		<physvol name="BeamPipe">
 		<volumeref ref="BeamPipeLogic"/>
-		<positionref ref="pPipeFull"/>
+		<positionref ref="pSSPipe"/>
 		<rotationref ref="rBpipe"/>
 		</physvol>
 
 		<physvol name="BeamPipeVac">
 		<volumeref ref="BeamPipeVacLogic"/>
-		<positionref ref="pPipeFull"/>
+		<positionref ref="pSSPipe"/>
 		<rotationref ref="rBpipe"/>
 		</physvol>
 
