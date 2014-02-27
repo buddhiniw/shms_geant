@@ -46,7 +46,7 @@ SHMSPrimaryGeneratorAction::SHMSPrimaryGeneratorAction()
   fParticleGun->SetParticleDefinition(particle);
   
   // electron energy is 11 GeV.
-  double gun_energy = 4000; // MeV
+  double gun_energy = 11000; // MeV
   fParticleGun->SetParticleEnergy(gun_energy*MeV);
   G4cout << "***************************" << G4endl
 	 << "*                          " << G4endl

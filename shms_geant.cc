@@ -64,9 +64,13 @@ Usage : ./shms_geant <gdml file name>
     #include "G4UIXm.hh"
 #endif
 
+// to swith between GUI and command prompt
+#define GUI 1        
+
 
 int main(int argc, char** argv)
 {
+
   G4String fGeomFile;
 
   // Get the GDML file for geometry
@@ -141,26 +145,28 @@ int main(int argc, char** argv)
   //
   if (argc==2)   
     {
-// #ifdef G4UI_USE
-//       G4UIExecutive* ui = new G4UIExecutive(argc, argv);
-// #ifdef G4VIS_USE
-//       UImanager->ApplyCommand("/control/execute vis.mac");       
-// #endif
-//       ui->SessionStart();
-//       delete ui;
-// #endif
-    
 
-      UImanager->ApplyCommand("/run/verbose 1");
-      UImanager->ApplyCommand("/event/verbose 1");
-      UImanager->ApplyCommand("/tracking/verbose 0");
-      
-      // start a run
-      int numberOfEvent = 100000;
-
-      runManager->BeamOn(numberOfEvent);
-
-       
+      if(GUI){
+#ifdef G4UI_USE
+      G4UIExecutive* ui = new G4UIExecutive(argc, argv);
+#ifdef G4VIS_USE
+      UImanager->ApplyCommand("/control/execute vis.mac");       
+#endif
+      ui->SessionStart();
+      delete ui;
+#endif
+      }
+      else{
+	UImanager->ApplyCommand("/run/verbose 1");
+	UImanager->ApplyCommand("/event/verbose 1");
+	UImanager->ApplyCommand("/tracking/verbose 0");
+	
+	// start a run
+	int numberOfEvent = 100000;
+	
+	runManager->BeamOn(numberOfEvent);
+	
+      }
     }
   
   

@@ -52,7 +52,7 @@ void SHMSRunAction::EndOfRunAction(const G4Run* aRun)
 
   // Open file to save total energy
   char name[100]; 
-  sprintf(name,"/data1/cdaq/buddhini/%s_output.txt",(fDetector->GetGeomFile()).data());
+  sprintf(name,"/data1/cdaq/buddhini/rootfiles/%s_output.txt",(fDetector->GetGeomFile()).data());
   G4cout<<" file "<<name<<G4endl;
   oFile.open(name);
   oFile<<"Events in this run = "<<nEvents<<std::endl;

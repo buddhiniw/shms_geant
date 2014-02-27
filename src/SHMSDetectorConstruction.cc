@@ -290,6 +290,8 @@ G4VPhysicalVolume* SHMSDetectorConstruction::Construct()
       }
       else {
 	SHMSMagField= new SHMSMagTabulatedField3D("HB_negative.TABLE");
+
+
         G4cout << "************************************" << G4endl
 	       << "*                                  *" << G4endl
 	       << "*  Negative Magnetic Field is ON   *" << G4endl

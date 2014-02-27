@@ -38,6 +38,8 @@ ntuples and histograms of selected quantities for sensitive detectors are stored
  	* histograms (event by event information) energy deposited in the volume (MeV)
 
 
+Textfile- A text file containing the total energy deposited on each sensitive volume is also written to the same directory where the rootfiles are stored. This contains the energy (Mev) and the error (MeV).
+
 
 Usage
 --------------------------------------------------
