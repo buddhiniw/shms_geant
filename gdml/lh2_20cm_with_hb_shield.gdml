@@ -80,7 +80,7 @@
 	<constant name="fHBBoreCenterZ" value="0"/>
 
 	<constant name="fTargetD" value="6.28"/>	
-	<constant name="fTargetZ" value="4"/>	
+	<constant name="fTargetZ" value="20"/>	
 	<constant name="fTargetCenterX" value="sin(3*pi/180)*target_to_hbbore_center"/>
 	<constant name="fTargetCenterY" value="0"/>
 	<constant name="fTargetCenterZ" value="-cos(3*pi/180)*target_to_hbbore_center"/>
@@ -130,6 +130,9 @@
 	<constant name="fHBCryoBoxY" value="4+fHBCoilBoxY"/>
 	<constant name="fHBCryoBoxZ" value="-0.1+fHBBoreZ"/>
 
+	<constant name="fHBCryoFrontShieldZ" value="10"/>
+
+
   	<position name="Origin" unit="cm" x="0" y="0" z="0" />
   	<position name="pTarget" unit="cm" x="fTargetCenterX" y="fTargetCenterY" z="fTargetCenterZ" />
   	<position name="pBPipe" unit="cm" x="fHBBpipeCenterX" y="fHBBpipeCenterY" z="fHBBpipeCenterX" />
@@ -145,10 +148,11 @@
   	<position name="pHBCoilBottomCut" unit="cm" x="0" y="-(fHBCoilWidth+fHBCoilBoxTopCutY/2)" z="0" />
   	<position name="pBpipe" unit="cm" x="-236.65" y="0" z="1469.33" />
   	<position name="pBpipeInCryo" unit="cm" x="-198.14" y="0" z="1475.34" />
+  	<position name="pCryoFrontSheild" unit="cm" x="-0.038" y="0" z="-62.66" />
+  	<position name="pCryoFrontSheildCut" unit="cm" x="2" y="0" z="50" />
 
   	<position name="pPipeFront" unit="cm" x="0" y="0" z="(fBpipeBackDz+fBpipeFrontDz)/2" />
   	<position name="pPipeFull" unit="cm" x="-8.625" y="0" z="-57.09" />
-
  
   	<rotation name="identity" x="0" y="0" z="0"/>
 	<rotation name="rHBRot" unit="deg" x="0" y="fBoreRot" z="0"/>
@@ -187,6 +191,9 @@
    	<D unit="g/cm3" value="2.70"/> <atom unit="g/mole"  value="26.98"/>
   	</material>
 
+	<material name="W" Z="74.0">
+   	<D unit="g/cm3" value="15.63"/> <atom unit="g/mole"  value="183.84"/>
+  	</material>
 
 	<material name="Vacuum" formula="Vacuum">
 	<D unit="g/cm3" value ="1E-25"/>
@@ -229,11 +236,10 @@
 	<box lunit="cm" name="endDump" x="300" y="100" z="100"/>
 
 
-	<tube aunit="deg"  name="pipefront" startphi="0" deltaphi="360" lunit="cm" rmin="fBpipeFrontRMin" rmax="fBpipeFrontRMax" z="fBpipeFrontDz"/>
-	<cone name = "pipeback" rmin1="fBpipeBackRMin1" rmax1="fBpipeBackRMax1" rmin2="fBpipeBackRMin2" rmax2="fBpipeBackRMax2" z="fBpipeBackDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
-	<tube aunit="deg"  name="pipefrontfull" startphi="0" deltaphi="360" lunit="cm" rmin="0" rmax="fBpipeFrontRMin" z="fBpipeFrontDz"/>
-	<cone name = "pipebackfull" rmin1="0" rmax1="fBpipeBackRMin1" rmin2="0" rmax2="fBpipeBackRMin2" z="fBpipeBackDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
-
+	<tube aunit="deg" name="pipefront" startphi="0" deltaphi="360" lunit="cm" rmin="fBpipeFrontRMin" rmax="fBpipeFrontRMax" z="fBpipeFrontDz"/>
+	<cone aunit="deg" name = "pipeback" rmin1="fBpipeBackRMin1" rmax1="fBpipeBackRMax1" rmin2="fBpipeBackRMin2" rmax2="fBpipeBackRMax2" z="fBpipeBackDz" startphi="0" deltaphi="360" lunit= "cm" />
+	<tube aunit="deg" name="pipefrontfull" startphi="0" deltaphi="360" lunit="cm" rmin="0" rmax="fBpipeFrontRMin" z="fBpipeFrontDz"/>
+	<cone aunit="deg" name = "pipebackfull" rmin1="0" rmax1="fBpipeBackRMin1" rmin2="0" rmax2="fBpipeBackRMin2" z="fBpipeBackDz" startphi="0" deltaphi="360" lunit= "cm" />
 
 	<cone name = "beamPipe" rmin1="fBpipeRMin1" rmax1="fBpipeRMax1" rmin2="fBpipeRMin2" rmax2="fBpipeRMax2" z="fBpipeDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
 	<cone name = "beamPipeFull" rmin1="0" rmax1="fBpipeRMax1" rmin2="0" rmax2="fBpipeRMax2" z="fBpipeDz" startphi="0" deltaphi="360" aunit="deg" lunit= "cm" />
@@ -330,6 +336,18 @@
              	v7x="-1+fHBCryoBoxXbp" v7y="(-2+fHBCryoBoxY)/2" 
 		v8x="-1+fHBCryoBoxXbp" v8y="-(-2+fHBCryoBoxY)/2"/>
 
+
+	<arb8 lunit="cm" name="hbCryoFrontSheild" dz="fHBCryoFrontShieldZ/2" 
+		v1x="fHBCryoBoxXfn+6.5" v1y="-fHBCryoBoxY/2" 
+		v2x="fHBCryoBoxXfn+6.5" v2y="fHBCryoBoxY/2"
+             	v3x="-1+fHBCryoBoxXfp" v3y="fHBCryoBoxY/2" 
+		v4x="-1+fHBCryoBoxXfp" v4y="-fHBCryoBoxY/2" 
+		v5x="fHBCryoBoxXbn+14.5" v5y="-fHBCryoBoxY/2" 
+		v6x="fHBCryoBoxXbn+14.5" v6y="fHBCryoBoxY/2"
+             	v7x="-1+fHBCryoBoxXbp" v7y="fHBCryoBoxY/2" 
+		v8x="-1+fHBCryoBoxXbp" v8y="-fHBCryoBoxY/2"/>
+
+
 	<subtraction name="hbCoilsCutMiddle">
 	<first ref="hbCoilBox"/>
 	<second ref="hbCoilBoxCut"/>
@@ -377,6 +395,12 @@
 	<first ref="hbCryoSolidWithPipeCut"/>
 	<second ref="hbBore"/>
 	<positionref ref="Origin"/>
+	</subtraction>
+
+	<subtraction name="hbCryoFrontShieldMinusBore">
+	<first ref="hbCryoFrontSheild"/>
+	<second ref="hbBore"/>
+	<positionref ref="pCryoFrontSheildCut"/>
 	</subtraction>
 
 	<union name="dumpFace">
@@ -442,6 +466,12 @@
 	<materialref ref="SSteel"/>
 	<solidref ref="hbCryoMinusBore"/>
 	<auxiliary auxtype="SensDet" auxvalue="HBCryoBox"/>
+	</volume>
+
+	<volume name="HBCryoFrontSheildLogic">
+	<materialref ref="W"/>
+	<solidref ref="hbCryoFrontShieldMinusBore"/>
+	<auxiliary auxtype="SensDet" auxvalue="HBCryoFrontShield"/>
 	</volume>
 
 	<volume name="ShieldBoxLogic">
@@ -525,6 +555,12 @@
 		<physvol name="HBCryoBox">
 		<volumeref ref="HBCryoBoxLogic"/>
 		<positionref ref="Origin"/>
+		<rotationref ref="rHBRot"/>
+		</physvol>
+
+		<physvol name="HBCryoFrontSheild">
+		<volumeref ref="HBCryoFrontSheildLogic"/>
+		<positionref ref="pCryoFrontSheild"/>
 		<rotationref ref="rHBRot"/>
 		</physvol>
 

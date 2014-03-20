@@ -414,7 +414,7 @@
 
 	<volume name="BeamPipeVacLogic">
 	<materialref ref="Vacuum"/>
-	<solidref ref="pipefrontfull"/>
+	<solidref ref="beampipefull"/>
 	</volume>
 
 	<volume name="BeamPipeLogic">
