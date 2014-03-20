@@ -40,10 +40,11 @@ public:
   G4VPhysicalVolume* Construct();
   inline G4String GetGeomFile() const { return fGeomFile; };
   const std::vector<G4String> GetDetNames() const { return detNames; };
+  inline G4String GetFieldMapFile() const { return fFieldMapFile; };
 
   // Magnetic field
   G4MagneticField* SHMSMagField;
-
+  const char* fFieldMapFile;
 
 private:
   static SHMSDetectorConstruction*  fgInstance;  

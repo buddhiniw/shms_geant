@@ -14,6 +14,8 @@ SHMSRunAction class implementation using examples/extended/electromagnetic/TestE
 #include "G4Run.hh"
 #include "G4ParticleDefinition.hh"
 #include "SHMSEventAction.hh"
+#include "SHMSDetectorConstruction.hh"
+
 #include <iostream>
 #include <fstream>
 
@@ -56,6 +58,7 @@ void SHMSRunAction::EndOfRunAction(const G4Run* aRun)
   G4cout<<" file "<<name<<G4endl;
   oFile.open(name);
   oFile<<"Events in this run = "<<nEvents<<std::endl;
+  oFile<<"Field Map = "<<fDetector->GetFieldMapFile()<<std::endl;
   oFile << "Total energy deposition for this run -\n";
   oFile << "detector, energy (MeV), rms (MeV)\n";
 

@@ -81,6 +81,7 @@ SHMSDetectorConstruction::SHMSDetectorConstruction(G4String fGDMLFile)
   SDman = G4SDManager::GetSDMpointer();
   DefineMaterials();
   fGeomFile =fGDMLFile; // Read from the command prompt  
+  fFieldMapFile = "HB_11gev_negative.TABLE";
   G4cout  << "Found geometry file "<< fGeomFile+".gdml"<<G4endl;
 }
 
@@ -184,11 +185,12 @@ G4VPhysicalVolume* SHMSDetectorConstruction::Construct()
   G4VisAttributes* ssteelVisAtt= new G4VisAttributes(G4Colour(1.0,1.0,1.0)); // white
   G4VisAttributes* lheVisAtt= new G4VisAttributes(G4Colour(0.0,0.0,1.0));    // blue
   G4VisAttributes* aluminumVisAtt= new G4VisAttributes(G4Colour(1.0,0.0,1.0)); // magneta
+  G4VisAttributes* tungstenVisAtt= new G4VisAttributes(G4Colour(0.0,1.0,1.0)); // cyan
 
   fWorldPhysVol->GetLogicalVolume()->SetVisAttributes(WorldVisAtt);  
   WorldVisAtt->SetVisibility(true);
   greenVisAtt->SetVisibility(true);
-  greenVisAtt->SetForceSolid(false);
+  greenVisAtt->SetForceSolid(true);
   vaccumVisAtt->SetVisibility(true);
   vaccumVisAtt->SetForceSolid(false);
   copperVisAtt->SetVisibility(true);
@@ -199,6 +201,8 @@ G4VPhysicalVolume* SHMSDetectorConstruction::Construct()
   lheVisAtt->SetForceSolid(true);
   aluminumVisAtt->SetVisibility(true);
   aluminumVisAtt->SetForceSolid(true);
+  tungstenVisAtt->SetVisibility(true);
+  tungstenVisAtt->SetForceSolid(true);
 
   fWorldPhysVol->GetLogicalVolume()->SetVisAttributes(WorldVisAtt);
   if (fWorldPhysVol->GetLogicalVolume()->GetMaterial()->GetName().compare("Vacuum")==0)
@@ -250,6 +254,12 @@ G4VPhysicalVolume* SHMSDetectorConstruction::Construct()
 	  fWorldPhysVol->GetLogicalVolume()->GetDaughter(i)
 	    ->GetLogicalVolume()->SetVisAttributes(aluminumVisAtt);
  	}
+    if (fWorldPhysVol->GetLogicalVolume()->GetDaughter(i)
+	  ->GetLogicalVolume()->GetMaterial()->GetName().compare("W")==0)
+ 	{
+	  fWorldPhysVol->GetLogicalVolume()->GetDaughter(i)
+	    ->GetLogicalVolume()->SetVisAttributes(tungstenVisAtt);
+ 	}
 
       // set visualization based on object names
       if (fWorldPhysVol->GetLogicalVolume()->GetDaughter(i)
@@ -279,9 +289,11 @@ G4VPhysicalVolume* SHMSDetectorConstruction::Construct()
     {
      
       G4FieldManager   *pFieldMgr;
+      //      field_map = "HB_11gev_positive.TABLE";
+
+      SHMSMagField= new SHMSMagTabulatedField3D(fFieldMapFile);
 
       if(MAG_POS){
-	SHMSMagField= new SHMSMagTabulatedField3D("HB_positive.TABLE");
         G4cout << "************************************" << G4endl
 	       << "*                                  *" << G4endl
 	       << "*  Positive Magnetic Field is ON   *" << G4endl
@@ -289,9 +301,6 @@ G4VPhysicalVolume* SHMSDetectorConstruction::Construct()
 	       << "************************************" << G4endl;
       }
       else {
-	SHMSMagField= new SHMSMagTabulatedField3D("HB_negative.TABLE");
-
-
         G4cout << "************************************" << G4endl
 	       << "*                                  *" << G4endl
 	       << "*  Negative Magnetic Field is ON   *" << G4endl
